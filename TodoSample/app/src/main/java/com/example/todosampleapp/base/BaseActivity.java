@@ -1,16 +1,33 @@
 package com.example.todosampleapp.base;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 
-import com.example.todosampleapp.R;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
-public class BaseActivity extends AppCompatActivity {
+import butterknife.ButterKnife;
+
+public abstract class BaseActivity <V extends BaseView, P extends BasePresenter<V>> extends AppCompatActivity {
+
+    protected P mPresenter;
+    protected abstract P setPresenter();
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_base);
+        mPresenter = setPresenter();
+        mPresenter.setView((V) this);
+    }
+
+    @Override
+    public void setContentView(int layoutResID) {
+        super.setContentView(layoutResID);
+        ButterKnife.bind(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mPresenter.removeView();
     }
 }
