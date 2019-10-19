@@ -1,14 +1,14 @@
 package com.example.todosampleapp.logic;
 
+import com.example.todosampleapp.MainContract;
 import com.example.todosampleapp.base.BasePresenter;
 import com.example.todosampleapp.logic.local.LocalDataSourceImpl;
 import com.example.todosampleapp.logic.remote.RemoteDataSourceImpl;
 import com.example.todosampleapp.model.Item;
+import com.example.todosampleapp.model.LoginItem;
 import com.example.todosampleapp.write.WriteContract;
 
 import java.util.List;
-
-import javax.sql.DataSource;
 
 import io.reactivex.Flowable;
 import io.reactivex.Single;
@@ -52,6 +52,37 @@ public class RepositoryImpl<T> implements Repository {
         return localDataSource.fetchItem(no)
                 .map(item -> {
                     item.setTitle(item.getTitle() + "_");
+                    return item;
+                });
+    }
+
+    //
+
+    @Override
+    public Single<Long> saveLogin(LoginItem item) {
+        return localDataSource.saveLogin(item);
+    }
+
+    @Override
+    public void saveLoginDone() {
+        ((WriteContract.Presenter)presenter).saveLoginDone();
+    }
+
+    @Override
+    public Flowable<List<LoginItem>> fetchLoginItems() {
+        return localDataSource.fetchLoginItems();
+    }
+
+    @Override
+    public void fetchLoginItemsDone(List list) {
+        ((MainContract.Presenter)presenter).fetchLoginItemsDone(list);
+    }
+
+    @Override
+    public Single<LoginItem> fetchLoginItem(int no) {
+        return localDataSource.fetchLoginItem(no)
+                .map(item -> {
+                    item.setEmail(item.getEmail() + "_");
                     return item;
                 });
     }

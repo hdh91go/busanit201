@@ -5,6 +5,7 @@ import androidx.room.Insert;
 import androidx.room.Query;
 
 import com.example.todosampleapp.model.Item;
+import com.example.todosampleapp.model.LoginItem;
 
 import java.util.List;
 
@@ -25,4 +26,15 @@ public interface ItemDao {
     // Insert
     @Insert
     Single<Long> saveItem(Item item);
+
+    @Query("select * from login_item order by no desc")
+    Flowable<List<LoginItem>> fetchLoginItems();
+
+    // Update
+    @Query("select * from login_item where no = :no")
+    Flowable<LoginItem> fetchLoginItem(int no);
+
+    // Insert
+    @Insert
+    Single<Long> saveLoginItem(LoginItem item);
 }

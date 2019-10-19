@@ -9,11 +9,6 @@ public class LoginItem {
     int no;
     String email;
     String password;
-//    String regDate;
-//    String regDate;
-
-//    @ColumnInfo(name = "done", defaultValue = "0")
-//    Boolean isDone = false;
 
     public int getNo() {
         return no;
@@ -45,8 +40,6 @@ public class LoginItem {
                 "no=" + no +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
-//                ", regDate='" + regDate + '\'' +
-//                ", isDone=" + isDone +
                 '}';
     }
 }
